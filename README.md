@@ -11,3 +11,6 @@
 - External Interrupt INT0 is configured with falling edge. Connect a push button with the internal pull-up resistor. If a falling edge detected the Stop Watch time should be reset.
 - External Interrupt INT1 is configured with raising edge. Connect a push button with the external pull-down resistor. If a raising edge detected the Stop Watch time should be paused.
 - External Interrupt INT2 is configured with falling edge. Connect a push button with the internal pull-up resistor. If a falling edge detected the Stop Watch time should be resumed.
+# Video Of Simulation
+https://user-images.githubusercontent.com/91912492/139964393-56facede-9678-4ca6-a5d2-06bf5f668fe0.mp4
+
