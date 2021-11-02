@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../mini.c 
+../StopWatch.c \
+../timer.c 
 
 OBJS += \
-./mini.o 
+./StopWatch.o \
+./timer.o 
 
 C_DEPS += \
-./mini.d 
+./StopWatch.d \
+./timer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -1,9 +1,10 @@
 #include<avr/io.h>
+#include"timer.h"
 #include<avr/interrupt.h>
 #include<util/delay.h>
-unsigned char second=0,minute=0,hour=0; // clock starts from 00:00:00
+volatile unsigned char second=0,minute=0,hour=0; // clock starts from 00:00:00
 // ISR code of the TIMER1 will increment the second by 1 and check the condition
-ISR(TIMER1_COMPA_vect){
+void TIMER1_Application(){
 
 	second++;
 	// check condition
@@ -51,16 +52,6 @@ ISR(INT2_vect){
 
 }
 
-void TIMER1_Init(void){
-	TCNT1=0; //first count from 10
-	OCR1A=1000; // overflow based on the compare register
-
-	TIMSK|=(1<<OCIE1A); // to enable the timer1 compare mode module unit
-
-	TCCR1A=(1<<FOC1A); // non pwm so this bit must be 1
-
-	TCCR1B|=(1<<WGM12)|(1<<CS10)|(1<<CS12); //WGM12 for the mode 4....CS10 & CS12 are for the prescalar
-}
 
 void INT0_Init(void){
 	DDRD&=~(1<<PD2); // configuring the int0 pin as input pin
@@ -82,6 +73,9 @@ void INT2_Init(void){
 }
 
 int main(){
+	TIMER_configType config={TIMER1,COMPARE_MODE_TIMER1,F_CPU_1024,0,0,1000};
+	TIMER1_setCallBack(TIMER1_Application);
+	TIMER_init(&config);
 	DDRC = 0xFF; // to make portc o/p pins
 	PORTC=0xF0; // initial value to the first 4-pin (initializing with 0)
 	DDRA = 0xFF;// to make portc o/p pins
@@ -90,7 +84,6 @@ int main(){
 	INT0_Init();
 	INT1_Init();
 	INT2_Init();
-	TIMER1_Init();
 	while(1){
 		// display the hour
 		PORTC=(PORTC & 0xF0) | ((hour-(hour%10))/10);
